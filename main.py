@@ -1,4 +1,4 @@
 from grovepi import *
 
 while (True):
-    print(analogRead(0))
+    print("Slider value: " + analogRead(0))
