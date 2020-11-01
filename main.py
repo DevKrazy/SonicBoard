@@ -1,4 +1,7 @@
 from grovepi import *
+import time
 
-while (True):
-    print("Slider value: " + analogRead(0))
+digitalWrite(7, 1)
+time.sleep(1)
+digitalWrite(7, 0)
+
