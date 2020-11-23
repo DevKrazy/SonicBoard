@@ -3,7 +3,7 @@ from pyjoycon.joycon import JoyCon
 import pygame
 import time
 from SoundManagement import playsound
-
+pygame.mixer.pre_init(buffer=16)#lowering buffer to reduce input lag
 pygame.mixer.init() #Initialisation of mixer
 pygame.mixer.set_num_channels(30) #Number of audio channel
 
@@ -12,6 +12,12 @@ sound_a = pygame.mixer.Sound("/home/thomas/PycharmProjects/SonicBoard/bruh.ogg")
 sound_b = pygame.mixer.Sound("/home/thomas/PycharmProjects/SonicBoard/honteux.ogg")
 sound_x = pygame.mixer.Sound("/home/thomas/PycharmProjects/SonicBoard/oof.ogg")
 sound_y = pygame.mixer.Sound("/home/thomas/PycharmProjects/SonicBoard/oof.ogg")
+
+#joycon sound path
+"""sound_a = pygame.mixer.Sound("/home/pi/SonicBoard/sounds/test.waw")
+sound_b = pygame.mixer.Sound("/home/pi/SonicBoard/sounds/bruh.ogg")
+sound_x = pygame.mixer.Sound("/home/pi/SonicBoard/sounds/honteux.ogg")
+sound_y = pygame.mixer.Sound("/home/pi/SonicBoard/sounds/oof.ogg")"""
 
 # Right JoyCon init
 joycon_id = get_R_id()
