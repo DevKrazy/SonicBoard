@@ -2,7 +2,7 @@ from pyjoycon import device, get_R_id, get_L_id
 from pyjoycon.joycon import JoyCon
 import pygame
 import time
-from SoundManagement import playsound
+from SoundPlayer import playsound
 pygame.mixer.pre_init(buffer=16)#lowering buffer to reduce input lag
 pygame.mixer.init() #Initialisation of mixer
 pygame.mixer.set_num_channels(30) #Number of audio channel
