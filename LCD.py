@@ -1,5 +1,6 @@
 import smbus
 import time
+import SoundProfile
 
 bus = smbus.SMBus(1)  # opens the I2C-1 bus
 
@@ -61,5 +62,20 @@ def set_text(text, crop=True):
         else:  # normal case, we write the character
             bus.write_byte_data(DISPLAY_TEXT_ADDR, 0x40, ord(character))
         i += 1
+
+
+def display_main_menu():
+    set_text("Profil :\n" + "<profil>")  # TODO: display real profile
+
+
+def display_volume_menu(volume):
+    set_text("Volume :\n-     " + str(volume) + "      +")
+
+
+def display_profile_menu(profile):
+    profile_number = len(SoundProfile)
+    profile_index = profile.ordinal()
+    set_text(profile.value + "\n<     " + str(profile_index) + "/" + profile_number + "     >")
+
 
 #  TODO: write more useful functions (set_line(line_number, text), set_char_at(x, y, char) etc...)
