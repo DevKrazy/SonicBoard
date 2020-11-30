@@ -10,12 +10,13 @@ def playsound(sound, channel_number=0):
         pygame.mixer.Channel(channel_number).play(sound)
 
 
-def play_sound(sound, profile, channel_number=0):
+def play_sound(sound, profile, channel_number=0, extension="mp3"):
     if pygame.mixer.Channel(channel_number).get_busy():
         if channel_number <= MAX_CHANNEL_NUMBER:
             play_sound(sound, profile, channel_number + 1)
         else:
             print("Maximum channel number reached (" + str(MAX_CHANNEL_NUMBER) + ")")
-            # TODO: throw a real error
+            # TODO: print warning on LCD
     else:
-        pygame.mixer.Channel(channel_number).play(profile.get_path + sound.get_sound_filename())
+        # TODO: throw error and print on LCD
+        pygame.mixer.Channel(channel_number).play(profile.get_path + sound.get_sound_filename() + "." + extension)
