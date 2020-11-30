@@ -13,7 +13,7 @@ def init_screen():
     Initialises the LCD.
     """
     text_command(0x01)  # clear 00000001
-    text_command(0x12)  # display/cursor/blink on/off control
+    text_command(0x0F)  # display/cursor/blink on/off control
     text_command(0x38)
 
 
@@ -40,7 +40,6 @@ def text_command(byte):
     """
     time.sleep(0.1)
     bus.write_byte_data(DISPLAY_TEXT_ADDR, 0x80, byte)
-    bus.write_byte_data(DISPLAY_TEXT_ADDR, 0x80, 0x12)  # turns cursor off
 
 
 def set_text(text, crop=True):
@@ -55,7 +54,7 @@ def set_text(text, crop=True):
         if character == '\n':  # case of line break
             text_command(0xc0)  # line return
             i = 0
-        elif i == 15 and crop:  # reached end of line and text needs to be cropped
+        elif i == 15 and crop == False:  # reached end of line and text needs to be cropped
             bus.write_byte_data(DISPLAY_TEXT_ADDR, 0x40, ord(character))
             text_command(0xc0)
             i = 0
