@@ -10,7 +10,7 @@ def playsound(sound, channel_number=0):
         pygame.mixer.Channel(channel_number).play(sound)
 
 
-def play_sound(sound, profile, channel_number=0, extension="mp3"):
+def play_sound(sound, profile, channel_number=0, extension="wav"):
     if pygame.mixer.Channel(channel_number).get_busy():
         if channel_number <= MAX_CHANNEL_NUMBER:
             play_sound(sound, profile, channel_number + 1)
