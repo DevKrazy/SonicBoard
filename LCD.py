@@ -1,6 +1,6 @@
 import smbus
 import time
-import SoundProfile
+from SoundProfile import SoundProfile
 
 bus = smbus.SMBus(1)  # opens the I2C-1 bus
 

@@ -1,9 +1,11 @@
 import LCD
+from SoundProfile import SoundProfile
 
 LCD.init_screen()
 LCD.set_color(0x80, 0x80, 0x80)
-LCD.set_text("Cette ligne est beaucoup trop longue...")
-
+#LCD.display_main_menu()
+#LCD.display_volume_menu(7)
+LCD.display_profile_menu(SoundProfile.CAT)
 
 # from pyjoycon import device, get_R_id, get_L_id
 # from pyjoycon.joycon import JoyCon
