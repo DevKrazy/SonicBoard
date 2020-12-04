@@ -1,6 +1,6 @@
 import smbus
 import time
-from SoundProfile import SoundProfile
+from sound import sound_profile
 
 bus = smbus.SMBus(1)  # opens the I2C-1 bus
 
@@ -73,7 +73,7 @@ def display_volume_menu(volume):
 
 
 def display_profile_menu(profile):
-    profile_number = len(SoundProfile)
+    profile_number = len(sound_profile)
     profile_index = profile.ordinal()
     set_text(profile.value + "\n<     " + str(profile_index) + "/" + profile_number + "     >")
 

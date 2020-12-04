@@ -1,11 +1,9 @@
 import LCD
-from SoundProfile import SoundProfile
+from sound.sound_profile import Profile
 
 LCD.init_screen()
 LCD.set_color(0x80, 0x80, 0x80)
-#LCD.display_main_menu()
-#LCD.display_volume_menu(7)
-LCD.display_profile_menu(SoundProfile.CAT)
+LCD.display_profile_menu(Profile.CAT)
 
 # from pyjoycon import device, get_R_id, get_L_id
 # from pyjoycon.joycon import JoyCon
