@@ -2,15 +2,33 @@ from enum import Enum, unique
 
 SOUNDS_FOLDER_PATH = "../sound_assets/"
 
+PROFILES = [["memes", "memes/"], ["drum", "drum/"], ["cat", "cat/"]]
 
-@unique  # ensures that two enum members cannot have the same value
-class Profile(Enum):
-    MEMES = SOUNDS_FOLDER_PATH + "memes/"
-    DRUM = SOUNDS_FOLDER_PATH + "drum/"
-    CAT = SOUNDS_FOLDER_PATH + "cat/"
 
-    def get_path(self):
-        """
-        :return: the SoundProfile's folder path
-        """
-        return self.value
+def get_name(profile_id):
+    """
+    :param profile_id: the id of the profile (0, 1, ...)
+    :return: the profile's name
+    """
+    return PROFILES[profile_id[0]]
+
+
+def get_path(profile_id):
+    """
+    :param profile_id: the id of the profile (0, 1, ...)
+    :return: the profile's path
+    """
+    return PROFILES[profile_id][1]
+
+
+def get_full_path(profile_id):
+    """
+    :param profile_id: the id of the profile (0, 1, ...)
+    :return: the profile's complete path
+    """
+    return SOUNDS_FOLDER_PATH + get_path(profile_id)
+
+
+
+
+

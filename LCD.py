@@ -64,17 +64,17 @@ def set_text(text, crop=True):
         i += 1
 
 
-def display_main_menu():
-    set_text("Profil :\n" + "<profil>")  # TODO: display real profile
+def display_main_menu(profile_id):
+    set_text("Profil :\n" + sound_profile.get_name(profile_id).capitalize())
 
 
 def display_volume_menu(volume):
-    set_text("Volume :\n-     " + str(volume) + "      +")
+    set_text("Volume :\n-     " + str(volume) + "      +") # TODO: normalize sound display
 
 
 def display_profile_menu(profile):
     profile_number = len(sound_profile)
-    profile_index = profile.ordinal()
+    profile_index = profile.get_index()
     set_text(profile.value + "\n<     " + str(profile_index) + "/" + profile_number + "     >")
 
 
