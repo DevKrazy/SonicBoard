@@ -6,7 +6,7 @@ from time import sleep
 
 LCD.init_screen()
 LCD.set_color(0x80, 0x80, 0x80)
-LCD.display_profile_menu(sprofile.get_name(0))co
+LCD.display_profile_menu(sprofile.get_name(0))
 
 # events loop
 #while True:
