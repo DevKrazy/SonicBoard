@@ -41,7 +41,7 @@ while True:
 
     if a != a_current and a_current == 1:
         #sound_player.play_sound(Sound.SOUND_A, profile_id)
-        print("pressed a button")
+        print("pressed button \"A\"")
 
     a = a_current
     b = b_current
