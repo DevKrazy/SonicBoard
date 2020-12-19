@@ -22,6 +22,7 @@ down = 0
 left = 0
 right = 0
 
+
 while True:
 
     # buttons update
@@ -34,6 +35,7 @@ while True:
     y_current = joycon_R.get_button_y()
     up_current = joycon_L.get_button_up()
     down_current = joycon_L.get_button_down()
+
     left_current = joycon_L.get_button_left()
     right_current = joycon_L.get_button_right()
 
