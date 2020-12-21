@@ -12,6 +12,8 @@ BUTTON_RIGHT = 'right'
 def extract_useful_inputs(joycon_left, joycon_right):
     """
     Extracts the inputs which will be used by SonicBoard.
+    :param joycon_left: a reference to the left joycon
+    :param joycon_right: a reference to the right joycon
     :return: a dictionary containing the joycons' input
     """
     return {
@@ -26,19 +28,17 @@ def extract_useful_inputs(joycon_left, joycon_right):
     }
 
 
-def get_pressed_buttons(joycon_left, joycon_right, previous_state):
+def get_pressed_buttons(previous_state, current_state):
     """
     Compares the previous state and current state of the buttons to see which were pressed.
-    :param joycon_left:
-    :param joycon_right:
-    :param previous_state:
+    :param previous_state: the dictionary containing the previous state of the buttons
+    :param current_state: the dictionary containing the current state of the buttons
     :return: a list of the buttons which have been pressed.
     """
     pressed_buttons = []  # the list of the buttons which have been pressed
-    current_state = extract_useful_inputs(joycon_left, joycon_right)  # the current state of the buttons
 
     for key, value in previous_state.items():
-        if current_state[key] != value:
+        if current_state[key] != value and current_state[key] == 1:
             # if the button's state changed, adds it to the pressed_buttons list
             pressed_buttons.append(key)
 
