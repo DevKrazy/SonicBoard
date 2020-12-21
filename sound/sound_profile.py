@@ -2,6 +2,8 @@ from enum import Enum, unique
 
 SOUNDS_FOLDER_PATH = "../sound_assets/"
 
+# Profiles format:
+# [[name0, path0], [name1, path1], ...]
 PROFILES = [["memes", "memes/"], ["drum", "drum/"], ["cat", "cat/"]]
 
 

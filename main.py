@@ -1,5 +1,5 @@
 from sound import sound_player, sound_profile
-from sound.sounds import Sound
+from utils import joycon_utils
 from pyjoycon import JoyCon, get_R_id, get_L_id
 from time import sleep
 
@@ -11,49 +11,16 @@ joycon_L = JoyCon(*id_L)
 # current profile's id
 profile_id = 0
 
-# right joycon buttons
-a = 0
-b = 0
-x = 0
-y = 0
-# left joycon buttons
-up = 0
-down = 0
-left = 0
-right = 0
-
+buttons_state = joycon_utils.extract_useful_inputs(joycon_L, joycon_R)
 
 while True:
+    current_buttons_state = joycon_utils.extract_useful_inputs(joycon_L, joycon_R)
+    pressed_buttons = joycon_utils.get_pressed_buttons(joycon_L, joycon_R, buttons_state)
 
-    # buttons update
-    # TODO: use a dict or an array to store buttons
-    # TODO: make a function to detect which button was pressed
-    # TODO: play a sound according to this function's return value (tuple?)
-    a_current = joycon_R.get_button_a()
-    b_current = joycon_R.get_button_b()
-    x_current = joycon_R.get_button_x()
-    y_current = joycon_R.get_button_y()
-    up_current = joycon_L.get_button_up()
-    down_current = joycon_L.get_button_down()
+    for button in pressed_buttons:
+        print(button)
 
-    left_current = joycon_L.get_button_left()
-    right_current = joycon_L.get_button_right()
-
-    if a != a_current and a_current == 1:
-        #sound_player.play_sound(Sound.SOUND_A, profile_id)
-        print("pressed button \"A\"")
-
-    a = a_current
-    b = b_current
-    x = x_current
-    y = y_current
-    up = up_current
-    down = down_current
-    left = left_current
-    right = right_current
-
-
-    sleep(0.015) # joycon refresh rate
+    sleep(0.015)  # joycon refresh rate
 
 
 
