@@ -13,9 +13,12 @@ def init_screen():
     """
     Initialises the LCD.
     """
+    bus.write_byte_data(DISPLAY_RGB_ADDR, 0x00, 0x00)
+    bus.write_byte_data(DISPLAY_RGB_ADDR, 0x01, 0x00)
+
     text_command(0x01)  # clear 00000001
     text_command(0x0F)  # display/cursor/blink on/off control
-    text_command(0x38)
+    text_command(0x38)  # 2 lines
 
 
 def set_color(red, green, blue):
@@ -64,8 +67,10 @@ def set_text(text, crop=True):
         i += 1
 
 
-def display_main_menu(profile_id):
-    set_text("Profil :\n" + sound_profile.get_name(profile_id).capitalize())
+def display_main_menu():
+    set_text("Profil :" + str(sound_profile.profile_id + 1) + "/"
+             + str(len(sound_profile.PROFILES)) + "\n"
+             + sound_profile.get_name().capitalize())
 
 
 def display_volume_menu(volume):

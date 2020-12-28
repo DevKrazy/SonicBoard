@@ -4,6 +4,7 @@ from sound import sound_profile
 MAX_CHANNEL_NUMBER = 30
 
 
+# TODO: rewrite play_sound function to match the new joycon_inputs mechanism
 def play_sound(sound, profile_id, channel_number=0, extension="wav"):
     if pygame.mixer.Channel(channel_number).get_busy():  # if the channel is busy
         if channel_number <= MAX_CHANNEL_NUMBER:  # if we have free channels left
