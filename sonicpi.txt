@@ -1,0 +1,5 @@
+live_loop :foo do
+  use_real_time
+  a = sync "/osc*/button"
+  sample a[0]
+end
