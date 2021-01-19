@@ -13,10 +13,10 @@ controller = xboxController.Controller()
 
 # current profile's id
 profile_id = 0
-profile_folder = "memes/" #TODO remplacer par la gestion de profil
+profile_folder = "drum/" #TODO remplacer par la gestion de profil
 
 done = False
-prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (0,0,0,0) #Utile pour ne pas enregistrer plusieurs inputs quand on laisse appuyé
+prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left, prev_lt,prev_rt = (0,0,0,0,0,0) #Utile pour ne pas enregistrer plusieurs inputs quand on laisse appuyé
 
 while not done:
     pad_up, pad_right, pad_down, pad_left = controller.get_pad() #On récupère les croix directionnelles(1 si appuyé, 0 sinon)
@@ -29,7 +29,7 @@ while not done:
 
     for event in pygame.event.get(): #On récupère les boutons avec un évènement pygame
         if event.type == pygame.QUIT:
-            done=True
+            done = True
         if event.type == pygame.JOYBUTTONDOWN:
             #if event.button == xboxController.A:
                 #print("a")
@@ -40,6 +40,12 @@ while not done:
             sender.send_message('/button', SOUND_ASSETS_PATH + profile_folder + str(event.button) + '.wav')
             #print('/button', SOUND_ASSETS_PATH + profile_folder + str(event.button) + '.wav')
 
+    if triggers <= -0.8 and not prev_lt:
+        sender.send_message('/button', SOUND_ASSETS_PATH + profile_folder + "lt" + '.wav')
+        prev_lt = 1
+    elif triggers >= 0.8 and not prev_rt:
+        prev_rt = 1
+        sender.send_message('/button', SOUND_ASSETS_PATH + profile_folder + "lt" + '.wav')
     if pad_up and not prev_pad_up: #pour ne pas avoir deux fois l'input si on laisse appuyé
         sender.send_message('/button', SOUND_ASSETS_PATH + profile_folder + "up" + '.wav')
     if pad_down and not prev_pad_down:
@@ -50,4 +56,4 @@ while not done:
         sender.send_message('/button', SOUND_ASSETS_PATH + profile_folder + "right" + '.wav')
 
     prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (pad_up, pad_right, pad_down, pad_left) #on enregistre la valeur du dpad en fin de boucle
-    sleep(0.2)  # joycon refresh rate
+    sleep(0.05)  #refresh rate
