@@ -2,7 +2,6 @@ from drivers import LCD
 from utils import defcom
 from sound import sound_profile
 from time import sleep
-from sound import sound_player, sound_profile
 from pythonosc import osc_message_builder, udp_client
 from utils import xboxController
 import pygame
