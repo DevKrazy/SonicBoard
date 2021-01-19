@@ -1,9 +1,6 @@
-import LCD
+from drivers import LCD
 from utils import defcom
 from sound import sound_profile
-import pygame
-
-
 from time import sleep
 
 # ports
@@ -18,9 +15,11 @@ defcom.pinMode(POT, "INPUT")
 
 ########## TEST #########
 LCD.init_screen()
-LCD.set_color(0xFF, 0x00, 0x99)
-LCD.display_main_menu()
+LCD.set_color(0xFF, 0x00, 0xFF)
+#LCD.display_main_menu()
 ######### END ###########
+
+
 
 # previous buttons states
 previous_left_button_state = defcom.digitalRead(BUTTON_LEFT)
@@ -30,7 +29,6 @@ while True:
     # current buttons states
     current_left_button_state = defcom.digitalRead(BUTTON_LEFT)
     current_right_button_state = defcom.digitalRead(BUTTON_RIGHT)
-
 
     # profile buttons computing
     if previous_left_button_state != current_left_button_state and current_left_button_state == 1:
@@ -45,5 +43,4 @@ while True:
     # current buttons state becomes the previous state for the next loop iteration
     previous_left_button_state = current_left_button_state
     previous_right_button_state = current_right_button_state
-
-    sleep(0.015)  # joycon refresh rate
+    sleep(2)
