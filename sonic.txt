@@ -1,0 +1,43 @@
+set :sAmp, 1
+set :sRate, 1
+set :echo, false
+
+
+
+
+#sample :drum_heavy_kick, rate: get[:sRate], amp: get[:sAmp]
+live_loop :samples do
+  use_real_time
+  a = sync "/osc*/button"
+  sample a[0], rate: get[:sRate], amp: get[:sAmp]
+  if get[:echo]
+    with_fx :echo do
+      sample a[0], rate: get[:sRate], amp: get[:sAmp]
+    end
+  else
+    
+    
+  end
+end
+live_loop :volume do
+  use_real_time
+  vol = sync "/osc*/vol"
+  set :sAmp, vol[0]
+end
+live_loop :rate do
+  use_real_time
+  rate = sync "/osc*/rate"
+  set :sRate, rate[0]
+end
+live_loop :echo do
+  use_real_time
+  rate = sync "/osc*/echo"
+  if get[:echo]
+    set :echo, false
+  else
+    set :echo, true
+  end
+  
+end
+
+
