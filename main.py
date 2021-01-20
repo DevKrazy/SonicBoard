@@ -13,31 +13,41 @@ POT = 0
 
 # initialisation
 pygame.init()
-sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)
+controller_count = pygame.joystick.get_count()
+print(9)
+
+# LCD init
+LCD.init_screen()
+LCD.set_color(0xFF, 0x00, 0xFF)
+
+# checks if the controller is connected
+if controller_count == 0:
+    LCD.set_text("Connectez la\nmanette :(")
+
+while controller_count == 0:
+    pygame.quit()
+    sleep(2)
+    pygame.init()
+    controller_count = pygame.joystick.get_count()
+
 controller = xboxController.Controller()
+LCD.set_text("C'est bon :)")
+sleep(2)
 
 defcom.pinMode(BUTTON_LEFT, "INPUT")
 defcom.pinMode(BUTTON_RIGHT, "INPUT")
 defcom.pinMode(POT, "INPUT")
 
-# current profile's id
-profile_id = 0
+# variables
 done = False
-
-########## TEST #########
-LCD.init_screen()
-LCD.set_color(0xFF, 0x00, 0xFF)
-#LCD.display_main_menu()
-SOUND_ASSETS_PATH = '/home/pi/Desktop/SonicThomas/sound_assets/'
-profile_folder = "drum/" #TODO remplacer par la gestion de profil
-
-######### END ###########
-
-
+sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)
 # previous buttons states
 previous_left_button_state = defcom.digitalRead(BUTTON_LEFT)
 previous_right_button_state = defcom.digitalRead(BUTTON_RIGHT)
 prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left, prev_lt, prev_rt = (0, 0, 0, 0, 0, 0)
+
+
+LCD.display_main_menu()
 
 while not done:
 
@@ -50,12 +60,15 @@ while not done:
     left_x, left_y = controller.get_left_stick()
     right_x, right_y = controller.get_right_stick()
 
+    #print(defcom.analogRead(POT))
+
     for event in pygame.event.get(): #On récupère les boutons avec un évènement pygame
         if event.type == pygame.QUIT:
             done = True
         if event.type == pygame.JOYBUTTONDOWN:
             # On récupère le numéro du bouton envoyé par pygame
             sender.send_message('/button', sound_profile.get_full_path() + str(event.button) + '.wav')
+    LCD.set_text("after get")
 
     if triggers <= -0.8 and not prev_lt:
         sender.send_message('/button', sound_profile.get_full_path() + '.wav')
@@ -64,13 +77,13 @@ while not done:
         prev_rt = 1
         sender.send_message('/button', sound_profile.get_full_path() + '.wav')
     if pad_up and not prev_pad_up:
-        sender.send_message('/button', sound_profile.get_full_path() + '.wav')
+        sender.send_message('/button', sound_profile.get_full_path() + "up" + '.wav')
     if pad_down and not prev_pad_down:
-        sender.send_message('/button', sound_profile.get_full_path() + '.wav')
+        sender.send_message('/button', sound_profile.get_full_path() + "down" + '.wav')
     if pad_left and not prev_pad_left:
-        sender.send_message('/button', sound_profile.get_full_path() + '.wav')
+        sender.send_message('/button', sound_profile.get_full_path() + "left + "'.wav')
     if pad_right and not prev_pad_right:
-        sender.send_message('/button', sound_profile.get_full_path() + '.wav')
+        sender.send_message('/button', sound_profile.get_full_path() + "right" + '.wav')
 
     # profile buttons computing
     if previous_left_button_state != current_left_button_state and current_left_button_state == 1:
@@ -88,5 +101,4 @@ while not done:
     prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (pad_up, pad_right, pad_down, pad_left)
     # TODO gestion des autres inputs (joysticks etc...)
 
-    sleep(0.05)  #refresh rate
-
+    sleep(0.01)  #refresh rate

@@ -2,7 +2,7 @@ import smbus
 import time
 from sound import sound_profile
 
-bus = smbus.SMBus(1)  # opens the I2C-1 bus
+bus = smbus.SMBus(2)  # opens the I2C-1 bus
 
 # LCD display addresses
 DISPLAY_RGB_ADDR = 0x62
@@ -82,5 +82,3 @@ def display_profile_menu(profile):
     profile_index = profile.get_index()
     set_text(profile.value + "\n<     " + str(profile_index) + "/" + profile_number + "     >")
 
-
-#  TODO: write more useful functions (set_line(line_number, text), set_char_at(x, y, char) etc...)

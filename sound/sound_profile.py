@@ -1,9 +1,10 @@
-SOUNDS_FOLDER_PATH = "../sound_assets/"
+SOUNDS_FOLDER_PATH = "/home/pi/Desktop/SonicBoard/sound_assets/"
 
 # Profiles format: [[name0, path0], [name1, path1], ...]
 PROFILES = [["memes", "memes/"], ["drum", "drum/"], ["cat", "cat/"]]
 
 profile_id = 0
+
 
 def get_name():
     """
@@ -23,7 +24,7 @@ def get_full_path():
     """
     :return: the profile's complete path
     """
-    return SOUNDS_FOLDER_PATH + get_path(profile_id)
+    return SOUNDS_FOLDER_PATH + get_path()
 
 
 def next_profile():
