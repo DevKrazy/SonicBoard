@@ -14,6 +14,8 @@ POT = 0
 # initialisation
 pygame.init()
 controller_count = pygame.joystick.get_count()
+pygame.display.set_mode((1,1))
+
 
 # LCD init
 LCD.init_screen()
@@ -55,7 +57,7 @@ def leftJoystick(left_x, left_y, right_x, right_y, prev_left_x, prev_left_y):
     if left_x >= 0.7 and not prev_left_x:
         sender.send_message('/button', sound_profile.get_full_path() + "ljoy_right" + '.wav')
         prev_left_x = True
-        print("dd")
+
     if left_x <= -0.7 and not prev_left_x:
         sender.send_message('/button', sound_profile.get_full_path() + "ljoy_left" + '.wav')
         prev_left_x = True
@@ -68,9 +70,12 @@ def leftJoystick(left_x, left_y, right_x, right_y, prev_left_x, prev_left_y):
 
     return [prev_left_x, prev_left_y]
 
-
+prev_volume = defcom.analogRead(POT)
 while not done:
-
+    volume = defcom.analogRead(POT)
+    if abs(volume - prev_volume) <= 100:
+        sender.send_message('/vol', volume/1023)
+        print (volume/1023)
     # current buttons state
     current_left_button_state = defcom.digitalRead(BUTTON_LEFT)
     current_right_button_state = defcom.digitalRead(BUTTON_RIGHT)
@@ -93,9 +98,10 @@ while not done:
             done = True
         if event.type == pygame.JOYBUTTONDOWN:
             # On récupère le numéro du bouton envoyé par pygame
-            sender.send_message('/button', sound_profile.get_full_path() + str(event.button) + '.wav')
             if event.button == xboxController.BACK:
                 sender.send_message('/echo', 1)
+            elif event.button == xboxController.START:
+                sender.send_message('/rev', 1)
             else:
                 sender.send_message('/button', sound_profile.get_full_path() + str(event.button) + '.wav')
 
@@ -137,7 +143,7 @@ while not done:
     if pad_down and not prev_pad_down:
         sender.send_message('/button', sound_profile.get_full_path() + "down" + '.wav')
     if pad_left and not prev_pad_left:
-        sender.send_message('/button', sound_profile.get_full_path() + "left + "'.wav')
+        sender.send_message('/button', sound_profile.get_full_path() + "left" + '.wav')
     if pad_right and not prev_pad_right:
         sender.send_message('/button', sound_profile.get_full_path() + "right" + '.wav')
 
@@ -155,7 +161,8 @@ while not done:
     previous_left_button_state = current_left_button_state
     previous_right_button_state = current_right_button_state
     prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (pad_up, pad_right, pad_down, pad_left)
-    # TODO gestion des autres inputs (joysticks etc...)
+    prev_volume = volume
+
 
     prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (pad_up, pad_right, pad_down, pad_left) #on enregistre la valeur du dpad en fin de boucle
     if left_x >= -0.1 and left_x <= 0.1 :

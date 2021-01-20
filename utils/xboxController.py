@@ -29,7 +29,7 @@ if platform_id == LINUX:
     LEFT_BUMP = 4
     RIGHT_BUMP = 5
     BACK = 6
-    START = 4
+    START = 7
     # GUIDE =
     LEFT_STICK_BTN = 8
     RIGHT_STICK_BTN = 9

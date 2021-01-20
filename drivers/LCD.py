@@ -2,7 +2,7 @@ import smbus
 import time
 from sound import sound_profile
 
-bus = smbus.SMBus(2)  # opens the I2C-1 bus
+bus = smbus.SMBus(1)  # opens the I2C-1 bus
 
 # LCD display addresses
 DISPLAY_RGB_ADDR = 0x62

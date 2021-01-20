@@ -1,7 +1,7 @@
-SOUNDS_FOLDER_PATH = "/home/pi/Desktop/SonicBoard/sound_assets/"
+SOUNDS_FOLDER_PATH = "/home/pi/Desktop/SonicThomas/sound_assets/"
 
 # Profiles format: [[name0, path0], [name1, path1], ...]
-PROFILES = [["memes", "memes/"], ["drum", "drum/"], ["cat", "cat/"]]
+PROFILES = [ ["drum", "drum/"], ["elec", "elec/"], ["memes", "memes/"],]
 
 profile_id = 0
 
