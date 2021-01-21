@@ -1,7 +1,7 @@
 SOUNDS_FOLDER_PATH = "/home/pi/Desktop/SonicThomas/sound_assets/"
 
 # Profiles format: [[name0, path0], [name1, path1], ...]
-PROFILES = [ ["drum", "drum/"], ["elec", "elec/"], ["memes", "memes/"],]
+PROFILES = [ ["drum", "drum/"], ["elec", "elec/"],["percussions", "percussions/"] ,["violon", "violon/"], ["trumpet", "trumpet/"], ["harp", "harp/"],["memes", "memes/"],]
 
 profile_id = 0
 

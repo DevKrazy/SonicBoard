@@ -14,8 +14,7 @@ POT = 0
 # initialisation
 pygame.init()
 controller_count = pygame.joystick.get_count()
-pygame.display.set_mode((1,1))
-
+pygame.display.set_mode((1, 1))
 
 # LCD init
 LCD.init_screen()
@@ -47,7 +46,6 @@ previous_left_button_state = defcom.digitalRead(BUTTON_LEFT)
 previous_right_button_state = defcom.digitalRead(BUTTON_RIGHT)
 prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left, prev_lt, prev_rt = (0, 0, 0, 0, 0, 0)
 
-
 LCD.display_main_menu()
 
 prev_left_x, prev_left_y, prev_right_x, prev_right_y = (False, False, False, False)
@@ -70,12 +68,13 @@ def leftJoystick(left_x, left_y, right_x, right_y, prev_left_x, prev_left_y):
 
     return [prev_left_x, prev_left_y]
 
+
 prev_volume = defcom.analogRead(POT)
 while not done:
     volume = defcom.analogRead(POT)
-    if abs(volume - prev_volume) <= 100:
-        sender.send_message('/vol', volume/1023)
-        print (volume/1023)
+    if 5 <= abs(volume - prev_volume) <= 100:
+        sender.send_message('/vol', volume / 1023)
+        print(volume)
     # current buttons state
     current_left_button_state = defcom.digitalRead(BUTTON_LEFT)
     current_right_button_state = defcom.digitalRead(BUTTON_RIGHT)
@@ -87,13 +86,12 @@ while not done:
     [prev_left_x, prev_left_y] = leftJoystick(left_x, left_y, right_x, right_y, prev_left_x, prev_left_y)
 
     triggers = controller.get_triggers()  # Les valeurs analogiques des gachettes
-    if triggers >= -0.5 and prev_lt :
+    if triggers >= -0.5 and prev_lt:
         prev_lt = 0
-    if triggers <= 0.5 and prev_rt :
+    if triggers <= 0.5 and prev_rt:
         prev_rt = 0
 
-
-    for event in pygame.event.get(): #On récupère les boutons avec un évènement pygame
+    for event in pygame.event.get():  # On récupère les boutons avec un évènement pygame
         if event.type == pygame.QUIT:
             done = True
         if event.type == pygame.JOYBUTTONDOWN:
@@ -106,6 +104,7 @@ while not done:
                 sender.send_message('/button', sound_profile.get_full_path() + str(event.button) + '.wav')
 
     # triggers computing
+    #triggers is only 1 value for both triggers (negative is left, positive is right)
     if triggers <= -0.8 and not prev_lt:
         sender.send_message('/button', sound_profile.get_full_path() + "lt" + '.wav')
         prev_lt = 1
@@ -114,31 +113,30 @@ while not done:
         sender.send_message('/button', sound_profile.get_full_path() + "rt" + '.wav')
 
 
-    # joystick computing
-    if right_x <= - 0.1 or right_x >= 0.1:
+    # joystick management
+    if right_x <= - 0.1 or right_x >= 0.1: #deadzone
         if right_x <= -0.5:
-            sender.send_message('/rate', -1)
+            sender.send_message('/rate', -1) #reverse sound
         # TODO joystick a droite
         prev_right_x = True
-    elif prev_right_x :
-        sender.send_message('/rate', 1)
+    elif prev_right_x:
+        sender.send_message('/rate', 1) #normal rate (pitch) value
         prev_right_x = False
 
     if right_y <= - 0.1 or right_y >= 0.1:
         if right_y <= -0.1:
-            sender.send_message('/rate', right_y * -5)
+            sender.send_message('/rate', right_y * -3) #analog pitch value
         elif right_y <= 0.9:
             sender.send_message('/rate', 1 - right_y)
-        else :
-            sender.send_message('/rate', 0.1)
+        else:
+            sender.send_message('/rate', 0.1) #minimum pitch value
         prev_right_y = True
-    elif prev_right_y :
+    elif prev_right_y:
         sender.send_message('/rate', 1)
         prev_right_y = False
 
-
     # pad computing
-    if pad_up and not prev_pad_up: #pour ne pas avoir deux fois l'input si on laisse appuyé
+    if pad_up and not prev_pad_up:  # pour ne pas avoir deux fois l'input si on laisse appuyé
         sender.send_message('/button', sound_profile.get_full_path() + "up" + '.wav')
     if pad_down and not prev_pad_down:
         sender.send_message('/button', sound_profile.get_full_path() + "down" + '.wav')
@@ -163,13 +161,13 @@ while not done:
     prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (pad_up, pad_right, pad_down, pad_left)
     prev_volume = volume
 
-
-    prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (pad_up, pad_right, pad_down, pad_left) #on enregistre la valeur du dpad en fin de boucle
-    if left_x >= -0.1 and left_x <= 0.1 :
+    prev_pad_up, prev_pad_right, prev_pad_down, prev_pad_left = (
+    pad_up, pad_right, pad_down, pad_left)  # on enregistre la valeur du dpad en fin de boucle
+    if left_x >= -0.1 and left_x <= 0.1: #if left joystick not used, storing that they are not used
         prev_left_x = False
-    if left_y >= -0.1 and left_y <= 0.1 :
+    if left_y >= -0.1 and left_y <= 0.1:
         prev_left_y = False
 
-    sleep(0.01)  #refresh rate
+    sleep(0.01)  # refresh rate
 
 pygame.quit()
