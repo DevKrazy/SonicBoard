@@ -1,0 +1,57 @@
+set :sAmp, 1
+set :sRate, 1
+set :echo, false
+set :rev, false
+
+
+
+live_loop :samples do
+  use_real_time
+  a = sync "/osc*/button"
+  if get[:echo] #on évalue la valeur des variables globales des effets echo et reverb
+    with_fx :echo do
+      sample a[0], rate: get[:sRate], amp: get[:sAmp]
+    end
+  else
+    if get[:rev]
+      with_fx :reverb do
+        sample a[0], rate: get[:sRate], amp: get[:sAmp]
+      end
+    else
+      sample a[0], rate: get[:sRate], amp: get[:sAmp] # pas d'effets activés
+    end
+  end
+end
+
+live_loop :volume do
+  use_real_time
+  vol = sync "/osc*/vol" #On reçoit la valeur du potentiomètre par osc
+  set :sAmp, vol[0] #on met la valeur reçue dans la variable globale volume
+end
+live_loop :rate do
+  use_real_time
+  rate = sync "/osc*/rate" #on reçoit la valeur du pitch venant du joystick par osc
+  set :sRate, rate[0]
+end
+live_loop :echo do
+  use_real_time
+  ech = sync "/osc*/echo" #quand on reçoit le signal osc, le code suivant est exécuté
+  if get[:echo] #Si il y avait déjà l'écho d'activé, on le désactive
+    set :echo, false
+  else
+    set :echo, true
+    set :rev, false #on désactive l'autre effet en cours
+  end
+end
+live_loop :reverb do
+  use_real_time
+  rev = sync "/osc*/rev"
+  if get[:rev]
+    set :rev, false
+  else
+    set :echo, false
+    set :rev, true
+  end
+end
+
+
