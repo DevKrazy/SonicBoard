@@ -1,7 +1,7 @@
 # SonicBoard
-Boîte à rythme basée sur une Raspberry Pi 3
+A Raspberry Pi 3 beat box.
 
-*Projet Raspberry réalisé en IG3 à Polytech Montpellier*
+*Realised in the context of the Raspberry project at Polytech Montpellier*
 
-# Bibiliothèques à installer au préalable 
+# Needed libraries 
 > pygame, pythonosc, smbus.
